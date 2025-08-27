@@ -3,9 +3,15 @@ package jm.task.core.jdbc.dao;
 import jm.task.core.jdbc.model.User;
 import jm.task.core.jdbc.util.Util;
 
-import java.sql.*;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
+import static java.lang.System.out;
 
 public class UserDaoJDBCImpl implements UserDao {
 
@@ -21,8 +27,9 @@ public class UserDaoJDBCImpl implements UserDao {
                     "age TINYINT NOT NULL" +
                     ")";
             try (Connection connection = Util.getConnection();
-                 Statement statement = connection.createStatement()) {
-                statement.executeUpdate(sql);
+                 PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.executeUpdate();
+                Util.commitTransaction(connection);//коммит
                 System.out.println("Таблица user создана или уже существует");
 
 
@@ -36,8 +43,9 @@ public class UserDaoJDBCImpl implements UserDao {
         public void dropUsersTable () { // удаление таблицы
             String sql = "DROP TABLE IF EXISTS user";
             try (Connection connection = Util.getConnection();
-                 Statement statement = connection.createStatement()) {
-                statement.executeUpdate(sql);
+                 PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                     preparedStatement.executeUpdate();
+                     Util.commitTransaction(connection);// коммит
                 System.out.println("Таблица user удалена или не существовала ");
             } catch (SQLException e) {
                 System.err.println("Ошибка при удалении таблицы" + e.getMessage());
@@ -54,6 +62,7 @@ public class UserDaoJDBCImpl implements UserDao {
                 preparedStatement.setString(2, lastName);
                 preparedStatement.setByte(3, age);
                 preparedStatement.executeUpdate();
+                Util.commitTransaction(connection);//коммит
                 System.out.println("User с именем " + name + "добавлен в базу данных");
             } catch (SQLException e) {
                 System.err.println("Ошибка при добавлении пользователя:" + e.getMessage());
@@ -66,6 +75,7 @@ public class UserDaoJDBCImpl implements UserDao {
                  PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
                 preparedStatement.setLong(1, id);
                 preparedStatement.executeUpdate();
+                Util.commitTransaction(connection); // КОММИТ
                 System.out.println("User с id" + id + " удален из базы данных");
             } catch (SQLException e) {
                 System.err.println("Ошибка удаления пользователя" + e.getMessage());
@@ -77,8 +87,8 @@ public class UserDaoJDBCImpl implements UserDao {
             String sql = "SELECT * FROM user";
 
             try (Connection connection = Util.getConnection();
-                 Statement statement = connection.createStatement();
-                 ResultSet resultSet = statement.executeQuery(sql)) {
+                 PreparedStatement preparedStatement = connection.prepareStatement(sql);
+                 ResultSet resultSet = preparedStatement.executeQuery()) {
 
 
                 while (resultSet.next()) {
@@ -88,6 +98,7 @@ public class UserDaoJDBCImpl implements UserDao {
                     user.setLastName(resultSet.getString("lastName"));
                     user.setAge(resultSet.getByte("age"));
                     users.add(user);
+                 //   Util.commitTransaction(connection);  не обязателен но оставлю так
                 }
             } catch (SQLException e) {
                 System.err.println("Ошибка при получении пользователей:" + e.getMessage());
@@ -99,8 +110,9 @@ public class UserDaoJDBCImpl implements UserDao {
         public void cleanUsersTable () {
             String sql = "TRUNCATE TABLE user";
             try (Connection connection = Util.getConnection();
-                 Statement statement = connection.createStatement()) {
-                statement.executeUpdate(sql);
+                 PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+               preparedStatement.executeUpdate();
+                Util.commitTransaction(connection); // КОММИТ
                 System.out.println("Таблица users очищена");
             } catch (SQLException e) {
                 System.err.println("Ошибка при очистке таблицы: " + e.getMessage());

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="sqlpp@localhost" uuid="a14d8256-2da9-44e6-bc07-25e7d9f5fce1">
+    <data-source source="LOCAL" name="kata@localhost" uuid="75468f24-47aa-4e24-a98f-e9f42d69f01a">
       <driver-ref>mysql.8</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://localhost:3306/sqlpp</jdbc-url>
+      <jdbc-url>jdbc:mysql://localhost:3306/kata</jdbc-url>
       <jdbc-additional-properties>
         <property name="com.intellij.clouds.kubernetes.db.host.port" />
         <property name="com.intellij.clouds.kubernetes.db.enabled" value="false" />
