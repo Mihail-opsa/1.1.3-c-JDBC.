@@ -69,7 +69,7 @@ public class UserDaoJDBCImpl implements UserDao {
                 }
             }
         } finally {
-            closeResources(null, preparedStatement, connection); //!!!!!!!!!!!!!!этот метод в конце не проеби его !!!!!!!! закрытие ресурсов
+            closeResources(null, preparedStatement, connection); 
         }
     }
 
