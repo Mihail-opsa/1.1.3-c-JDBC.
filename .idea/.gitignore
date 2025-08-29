@@ -1,0 +1,30 @@
+# Compiled class files
+*.class
+target/
+bin/
+out/
+
+# IDE files
+.idea/
+*.iml
+.classpath
+.project
+.settings/
+.vscode/
+/.idea
+
+# Log files
+*.log
+logs/
+
+# Database files
+*.db
+*.sqlite
+*.h2.db
+
+# Environment variables
+.env
+
+# OS generated files
+.DS_Store
+Thumbs.db
